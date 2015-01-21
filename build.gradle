@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.spring.io/libs-snapshot" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE")
+    }
+}
+
+jar {
+    baseName = 'reactor-sample'
+    version =  '1.0.SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-snapshot" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.projectreactor.spring:reactor-spring-context")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.springframework:spring-web")
+    testCompile("junit:junit")
+}
