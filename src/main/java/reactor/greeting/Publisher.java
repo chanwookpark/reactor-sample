@@ -20,16 +20,16 @@ public class Publisher {
     @Autowired
     CountDownLatch latch;
 
-    public void pulbishQuotes(int numberOfQuotes) throws InterruptedException {
+    public void publishQuotes(int numberOfQuotes) throws InterruptedException {
         long start = System.currentTimeMillis();
 
         AtomicInteger counter = new AtomicInteger(1);
 
         for (int i = 0; i < numberOfQuotes; i++) {
-            reactor.notify("quotes", Event.wrap(counter.getAndIncrement()));
+            reactor.notify(Application.QUOTES_KEY, Event.wrap(counter.getAndIncrement()));
         }
 
-        latch.await();
+        latch.await(); // 모두 끝날때까지 대기 ~
 
         long elapsed = System.currentTimeMillis() - start;
 

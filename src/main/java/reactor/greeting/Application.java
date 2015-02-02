@@ -24,6 +24,7 @@ import static reactor.event.selector.Selectors.$;
 public class Application implements CommandLineRunner {
 
     private static final int NUMBER_OF_QUOTES = 10;
+    public static final String QUOTES_KEY = "quotes";
 
     @Bean
     public Environment env() {
@@ -39,7 +40,7 @@ public class Application implements CommandLineRunner {
     Reactor reactor;
 
     @Autowired
-    Reciever reciever;
+    Receiver receiver;
 
     @Autowired
     Publisher publisher;
@@ -51,8 +52,9 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        reactor.on($("quotes"), reciever);
-        publisher.pulbishQuotes(NUMBER_OF_QUOTES);
+        // QUOTES_KEY로 들어오는 요청을 receiver로 바인딩 receiver
+        reactor.on($(QUOTES_KEY), receiver);
+        publisher.publishQuotes(NUMBER_OF_QUOTES);
     }
 
     public static void main(String[] args) {

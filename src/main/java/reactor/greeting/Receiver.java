@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
  * Created by chanwook on 2015. 1. 22..
  */
 @Service
-public class Reciever implements Consumer<Event<Integer>> {
+public class Receiver implements Consumer<Event<Integer>> {
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -22,7 +22,8 @@ public class Reciever implements Consumer<Event<Integer>> {
     @Override
     public void accept(Event<Integer> event) {
         QuoteResource quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", QuoteResource.class);
-        System.out.println("Quote " + event.getData() + ": " + quote.getValue().getQuote());
+        System.out.println("Quote " + event.getData() + ": " + quote.getValue().getQuote() +
+                "[thread: " + Thread.currentThread().getName() + "]");
         latch.countDown();
     }
 }
